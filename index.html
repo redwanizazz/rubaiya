@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rubaiya Binte Rafique — Financial Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #132235;
+      --navy-light: #1a3150;
+      --gold: #c9a84c;
+      --gold-light: #e2c97e;
+      --gold-dim: rgba(201,168,76,0.18);
+      --cream: #f5f0e8;
+      --cream-dim: rgba(245,240,232,0.7);
+      --white: #ffffff;
+      --muted: rgba(245,240,232,0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 4rem;
+      background: linear-gradient(to bottom, rgba(13,27,42,0.95), transparent);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--gold-light);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 4rem;
+      overflow: hidden;
+    }
+
+    /* decorative grid lines */
+    #hero::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 50%; height: 100%;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* large decorative numeral */
+    .hero-bg-numeral {
+      position: absolute; right: -2rem; bottom: -4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18rem, 28vw, 34rem);
+      font-weight: 700; line-height: 1;
+      color: rgba(201,168,76,0.04);
+      user-select: none; pointer-events: none;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--cream);
+      opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-name em { font-style: italic; color: var(--gold-light); }
+    .hero-tagline {
+      margin-top: 1.6rem;
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      font-weight: 300; color: var(--cream-dim);
+      max-width: 520px; line-height: 1.65;
+      opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-cta-row {
+      display: flex; gap: 1.2rem; margin-top: 2.8rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-gold {
+      background: var(--gold); color: var(--navy);
+      font-weight: 500;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+    .btn-outline:hover { background: var(--gold-dim); transform: translateY(-2px); }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 4rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0; animation: fadeUp 1s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 40px; height: 1px; background: var(--gold);
+      animation: expandLine 1.2s 1.4s both;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 6rem 4rem; }
+
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 3rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold-light); }
+
+    /* divider line */
+    .gold-rule {
+      border: none; border-top: 1px solid rgba(201,168,76,0.25);
+      margin: 0;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--navy-mid); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--cream-dim); font-size: 1.05rem;
+      line-height: 1.8; margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--gold-light); font-weight: 500; }
+    .contact-block { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .contact-row { display: flex; align-items: center; gap: 0.8rem; font-size: 0.88rem; color: var(--cream-dim); }
+    .contact-row a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+    .contact-row a:hover { color: var(--gold-light); }
+    .contact-icon { color: var(--gold); font-size: 0.9rem; width: 18px; flex-shrink: 0; }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-card {
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 1.6rem 1.4rem;
+      background: rgba(201,168,76,0.04);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .stat-card:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.09); }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem; font-weight: 600;
+      color: var(--gold-light); line-height: 1;
+    }
+    .stat-label { font-size: 0.78rem; letter-spacing: 0.1em; color: var(--muted); margin-top: 0.4rem; text-transform: uppercase; }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--navy); }
+    .edu-list { display: flex; flex-direction: column; gap: 0; }
+    .edu-item {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: start;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      gap: 2rem;
+      transition: background 0.2s;
+    }
+    .edu-item:first-child { border-top: 1px solid rgba(201,168,76,0.12); }
+    .edu-degree {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600; color: var(--cream);
+    }
+    .edu-institution {
+      font-size: 0.88rem; color: var(--gold); margin-top: 0.25rem; letter-spacing: 0.04em;
+    }
+    .edu-sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+    .edu-meta { text-align: right; }
+    .edu-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--gold-light); font-weight: 600;
+    }
+    .edu-gpa {
+      display: inline-block; margin-top: 0.5rem;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--navy-mid); }
+    .skills-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .skill-group {
+      padding: 2rem 1.8rem;
+      border: 1px solid rgba(201,168,76,0.12);
+      background: rgba(13,27,42,0.5);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .skill-group:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); }
+    .skill-group-label {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      font-size: 0.8rem; color: var(--cream-dim);
+      padding: 0.3rem 0.75rem;
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.12);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--navy); }
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .project-card {
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 2.4rem;
+      background: var(--navy-mid);
+      position: relative; overflow: hidden;
+      transition: transform 0.35s, border-color 0.35s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.4); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-type {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem; font-weight: 600; color: var(--cream);
+      line-height: 1.2; margin-bottom: 0.3rem;
+    }
+    .project-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.4rem; }
+    .project-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .project-bullets li {
+      font-size: 0.88rem; color: var(--cream-dim); line-height: 1.6;
+      padding-left: 1rem; position: relative;
+    }
+    .project-bullets li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--gold); font-size: 0.7rem; top: 0.2rem;
+    }
+    .project-bullets li strong { color: var(--gold-light); font-weight: 500; }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.6rem;
+      font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      padding-bottom: 0.2rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .project-link:hover { color: var(--gold-light); border-color: var(--gold); }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--navy-mid); }
+    .exp-card {
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 2.8rem;
+      background: rgba(13,27,42,0.5);
+    }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .exp-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--cream);
+    }
+    .exp-org { font-size: 0.9rem; color: var(--gold); margin-top: 0.3rem; letter-spacing: 0.04em; }
+    .exp-period {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--gold-light); font-weight: 600;
+      white-space: nowrap;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .exp-bullets li {
+      display: grid; grid-template-columns: auto 1fr; gap: 1rem;
+      font-size: 0.92rem; color: var(--cream-dim); line-height: 1.65;
+    }
+    .exp-bullets li .bullet-label {
+      color: var(--gold); font-weight: 500; font-size: 0.84rem;
+      white-space: nowrap; padding-top: 0.05rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--gold-light); letter-spacing: 0.05em;
+    }
+    .footer-note { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes expandLine {
+      from { width: 0; } to { width: 40px; }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem; }
+      .section-inner { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-cols { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      footer { padding: 2rem 1.5rem; }
+      .hero-scroll-hint { left: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">RBR</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-numeral">₿</div>
+  <p class="hero-eyebrow">Financial Analyst &amp; BBA Candidate</p>
+  <h1 class="hero-name">Rubaiya<br><em>Binte Rafique</em></h1>
+  <p class="hero-tagline">
+    Turning financial data into clarity — specialising in financial modelling,
+    equity research, and KPI analysis to support smarter, evidence-led decisions.
+  </p>
+  <div class="hero-cta-row">
+    <a class="btn btn-gold" href="#projects">View Projects</a>
+    <a class="btn btn-outline" href="mailto:rubaiyabinterafiq@gmail.com">Get in Touch</a>
+  </div>
+  <div class="hero-scroll-hint">
+    <span class="scroll-line"></span>
+    Scroll to explore
+  </div>
+</section>
+
+<hr class="gold-rule" />
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label">About</p>
+        <h2 class="section-title">Finance meets<br><em>analytical rigour</em></h2>
+        <p>
+          I'm a final-year BBA student at Bangladesh University of Business and Technology,
+          with a strong focus on <strong>financial analysis, budgeting, and forecasting</strong>.
+          I enjoy digging into financial statements, building models from scratch, and
+          translating numbers into decisions that matter.
+        </p>
+        <p>
+          My academic projects include building comprehensive financial models for publicly
+          listed firms — from balance sheets and cash flow statements to KPI dashboards
+          and equity research — giving me hands-on experience with real-world data.
+        </p>
+        <div class="contact-block">
+          <div class="contact-row">
+            <span class="contact-icon">✉</span>
+            <a href="mailto:rubaiyabinterafiq@gmail.com">rubaiyabinterafiq@gmail.com</a>
+          </div>
+          <div class="contact-row">
+            <span class="contact-icon">☎</span>
+            <span>+880 1326-255244</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-icon">in</span>
+            <a href="https://www.linkedin.com/in/rubaiya-binte-rafiq-3a4165338" target="_blank" rel="noopener">linkedin.com/in/rubaiya-binte-rafiq-3a4165338</a>
+          </div>
+        </div>
+      </div>
+      <div class="stats-grid reveal reveal-delay-2">
+        <div class="stat-card">
+          <div class="stat-number">3.70</div>
+          <div class="stat-label">CGPA (BBA)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5.0</div>
+          <div class="stat-label">HSC GPA (Perfect)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">2+</div>
+          <div class="stat-label">Financial Models Built</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4 yrs</div>
+          <div class="stat-label">Finance Experience</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-rule" />
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <p class="section-label reveal">Education</p>
+    <h2 class="section-title reveal reveal-delay-1">Academic<br><em>Background</em></h2>
+    <div class="edu-list">
+      <div class="edu-item reveal reveal-delay-1">
+        <div>
+          <div class="edu-degree">Bachelor of Business Administration</div>
+          <div class="edu-institution">Bangladesh University of Business and Technology</div>
+          <div class="edu-sub">Dhaka, Bangladesh</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-year">2022 – 2026</div>
+          <div class="edu-gpa">CGPA 3.70</div>
+        </div>
+      </div>
+      <div class="edu-item reveal reveal-delay-2">
+        <div>
+          <div class="edu-degree">Higher Secondary Certificate (HSC)</div>
+          <div class="edu-institution">Dhaka Commerce College</div>
+          <div class="edu-sub">Commerce Stream · Dhaka, Bangladesh</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-year">2021</div>
+          <div class="edu-gpa">GPA 5.00 / 5.00</div>
+        </div>
+      </div>
+      <div class="edu-item reveal reveal-delay-3">
+        <div>
+          <div class="edu-degree">Secondary School Certificate (SSC)</div>
+          <div class="edu-institution">BCIC College</div>
+          <div class="edu-sub">Commerce Stream · Dhaka, Bangladesh</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-year">2019</div>
+          <div class="edu-gpa">GPA 4.22 / 5.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-rule" />
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-label reveal">Skills</p>
+    <h2 class="section-title reveal reveal-delay-1">Core<br><em>Competencies</em></h2>
+    <div class="skills-cols">
+      <div class="skill-group reveal reveal-delay-1">
+        <div class="skill-group-label">Documentation &amp; Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">MS Excel</span>
+          <span class="skill-tag">MS Word</span>
+          <span class="skill-tag">MS PowerPoint</span>
+          <span class="skill-tag">Google Docs</span>
+          <span class="skill-tag">Canva</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <div class="skill-group-label">Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">English — Professional</span>
+          <span class="skill-tag">Bengali — Professional</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-3">
+        <div class="skill-group-label">Soft Skills</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Communication</span>
+          <span class="skill-tag">Creative Writing</span>
+          <span class="skill-tag">Team-Oriented</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Budgeting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-rule" />
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label reveal">Projects</p>
+    <h2 class="section-title reveal reveal-delay-1">Financial<br><em>Models &amp; Research</em></h2>
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal reveal-delay-1">
+        <p class="project-type">Financial Statement Modelling &amp; Analysis · 2026</p>
+        <h3 class="project-name">Ibn Sina Pharma</h3>
+        <p class="project-sub">FY2025 Financial Model — Academic Project</p>
+        <ul class="project-bullets">
+          <li>
+            <strong>Financial Statement Analysis:</strong> Built a comprehensive model covering
+            balance sheet, income statement, and cash flow — analysing over EGP 36 billion
+            in total assets and EGP 76.6 billion in net revenues.
+          </li>
+          <li>
+            <strong>Profitability Assessment:</strong> Evaluated YoY metrics including 46.7% gross
+            profit growth, 5.1% EBITDA margin, and 54.9% net profit growth; identified impact
+            of rising financing expenses on margins.
+          </li>
+          <li>
+            <strong>KPI Dashboard:</strong> Developed a structured KPI dashboard summarising
+            liquidity, profitability, and leverage ratios for data-driven interpretation.
+          </li>
+        </ul>
+        <a class="project-link"
+           href="https://docs.google.com/spreadsheets/d/18mWhQ5miYriEU28NuTrAFC5CFCin_MPq/edit?usp=sharing"
+           target="_blank" rel="noopener">
+          View Spreadsheet ↗
+        </a>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal reveal-delay-2">
+        <p class="project-type">Equity Research &amp; Ratio Analysis · 2025</p>
+        <h3 class="project-name">BATBC</h3>
+        <p class="project-sub">5-Year Financial Analysis (FY2020–FY2024) — Academic Project</p>
+        <ul class="project-bullets">
+          <li>
+            <strong>Multi-Year Modelling:</strong> Tracked British American Tobacco Bangladesh's
+            revenue from BDT 60.3 billion to BDT 99.4 billion across five years, assessing
+            CAGR trends and cost structure shifts.
+          </li>
+          <li>
+            <strong>Ratio &amp; Margin Analysis:</strong> Calculated gross, EBIT, EBITDA, and net
+            profit margins alongside effective tax rate; identified consistent margin compression
+            from FY2022.
+          </li>
+          <li>
+            <strong>Earnings &amp; Dividend Review:</strong> Analysed EPS, dividend per share, and
+            free cash flow per share; observed dividend volatility against declining net income
+            growth in FY2024.
+          </li>
+        </ul>
+        <a class="project-link"
+           href="https://docs.google.com/spreadsheets/d/1BfHUT6-1ejpjmupLgcNwDGmiF6RocQ7n/edit?usp=sharing"
+           target="_blank" rel="noopener">
+          View Spreadsheet ↗
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gold-rule" />
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal reveal-delay-1">Extracurricular<br><em>Finance Work</em></h2>
+    <div class="exp-card reveal reveal-delay-2">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Finance Associate</div>
+          <div class="exp-org">Project Better Life · Dhaka, Bangladesh</div>
+        </div>
+        <div class="exp-period">2021 — Present</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>
+          <span class="bullet-label">Sponsor Funds</span>
+          <span>Managed sponsor funds of approximately $2,000 with accurate tracking, proper allocation, and compliance with organisational guidelines.</span>
+        </li>
+        <li>
+          <span class="bullet-label">Operating Budget</span>
+          <span>Administered a weekly operating budget of ~$100 for academic classes and administrative expenses, maintaining accurate records and cost discipline.</span>
+        </li>
+        <li>
+          <span class="bullet-label">Event Budgets</span>
+          <span>Managed event budgets of approximately $1,000 for flagship programmes, covering end-to-end budget planning and live expense monitoring.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Rubaiya Binte Rafique</div>
+    <div class="footer-note">Financial Analyst · Dhaka, Bangladesh</div>
+  </div>
+  <div class="footer-note">© 2026 · All rights reserved</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
